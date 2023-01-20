@@ -8,12 +8,15 @@ const debugLog = (message, meta = {}) => {
   this.logger.debug(message, meta);
 };
 
-const getAll = async () => {
+const getAll = async (
+  user
+) => {
   debugLog('Fetching all teams');
   const teams = await teamsRepository.getAll();
+  let filteredTeams = teams.filter(team => team.userId === user.id);
   return {
-    items: teams,
-    count: teams.length
+    items: filteredTeams,
+    count: filteredTeams.length
   };
 };
 
@@ -23,10 +26,12 @@ const getById = (id) => {
 };
 
 const create = async ({
-  name
+  name,
+  userId
 }) => {
 
   const newTeam = {
+    userId,
     name
   };
   debugLog('Creating new team', newTeam);
@@ -39,19 +44,6 @@ const create = async ({
   return newTeam;
 };
 
-const updateById = (id, {
-  name
-}) => {
-  debugLog(`Updating team with id ${id} with name ${name}`);
-  const team = teamsRepository.getById(id);
-  if (!team) {
-    debugLog(`Team with id ${id} not found`);
-    return null;
-  }
-  team.name = name;
-  return teamsRepository.updateById(id, team);
-};
-
 const deleteById = (id) => {
   debugLog(`Deleting team with id ${id}`);
   teamsRepository.deleteById(id);
@@ -61,6 +53,5 @@ module.exports = {
   getAll,
   getById,
   create,
-  updateById,
   deleteById
 };

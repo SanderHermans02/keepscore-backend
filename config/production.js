@@ -4,7 +4,7 @@ module.exports = {
     disabled: false,
   },
   cors: {
-    origins: ['http://localhost:3000'],
+    origins: ['https://frontendweb-keepscore.onrender.com'],
     maxAge: 3 * 60 * 60, // 3h in seconds
   },
   database: {
@@ -13,4 +13,5 @@ module.exports = {
     port: 40043,
     name: '073918sh',
   },
+  port: 9000,
 };

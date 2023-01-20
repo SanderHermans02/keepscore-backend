@@ -1,13 +1,33 @@
 const Router = require('@koa/router');
 const teamService = require('../service/team');
+const userService = require('../service/user');
+const {
+  addUserInfo
+} = require('../core/auth');
 
 const getAllTeams = async (ctx) => {
-  ctx.body = await teamService.getAll();
+  const user = await userService.getByAuth0Id(ctx.state.user.sub);
+  ctx.body = await teamService.getAll(user);
 }
 
 const createTeam = async (ctx) => {
+  let userId = 0;
+  try {
+    const user = await userService.getByAuth0Id(ctx.state.user.sub);
+    userId = user.id;
+  } catch (e) {
+    await addUserInfo(ctx);
+    console.log("user id before register: " + ctx.state.user.sub)
+    userId = await userService.register({
+      auth0Id: ctx.state.user.sub,
+      name: ctx.state.user.name,
+    })
+  }
+
+
   const newTeam = await teamService.create({
     ...ctx.request.body,
+    userId
   });
   ctx.body = newTeam;
 };
@@ -15,13 +35,6 @@ const createTeam = async (ctx) => {
 const getTeamById = async (ctx) => {
   ctx.body = await teamService.getById(ctx.params.id);
 }
-
-const updateteam = async (ctx) => {
-  ctx.body = teamService.updateById(ctx.params.id, {
-    ...ctx.request.body,
-    date: new Date(ctx.request.body.date)
-  });
-};
 
 const deleteteam = async (ctx) => {
   teamService.deleteById(ctx.params.id);
@@ -39,7 +52,6 @@ module.exports = function installTeamRouter(app) {
   router.get('/', getAllTeams);
   router.post('/', createTeam);
   router.get('/:id', getTeamById);
-  router.put('/:id', updateteam);
   router.delete('/:id', deleteteam);
 
   app.use(router.routes()).use(router.allowedMethods());

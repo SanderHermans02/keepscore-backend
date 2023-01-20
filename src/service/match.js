@@ -1,7 +1,6 @@
 const {
   getLogger
 } = require('../core/logging');
-
 const matchRepository = require('../repository/match');
 
 const debugLog = (message, meta = {}) => {
@@ -9,9 +8,16 @@ const debugLog = (message, meta = {}) => {
   this.logger.debug(message, meta);
 };
 
-const getAll = () => {
+const getAll = async (user) => {
   debugLog("Fetching all matches");
-  return matchRepository.getAll();
+  const matches = await matchRepository.getAll();
+
+  let filteredMatches = matches.filter(match => match.userId == user.id);
+  debugLog(`Found ${filteredMatches.length} matches`);
+  return {
+    items: filteredMatches,
+    count: filteredMatches.length
+  };
 };
 
 const getById = async (id) => {
@@ -19,12 +25,13 @@ const getById = async (id) => {
   return await matchRepository.getById(id);
 };
 
-const create = ({
+const create = async ({
   homeTeamId,
   awayTeamId,
   homeScore,
   awayScore,
-  date
+  date,
+  userId
 }) => {
   //print all the paramenters
   debugLog('Creating new match', {
@@ -32,7 +39,8 @@ const create = ({
     awayTeamId,
     homeScore,
     awayScore,
-    date
+    date,
+    userId
   });
 
 
@@ -58,7 +66,8 @@ const create = ({
     awayTeamId,
     homeScore,
     awayScore,
-    date: date.toISOString().split('T')[0]
+    date: date.toISOString().split('T')[0],
+    userId
   };
   debugLog('Creating new match', newMatch);
   matchRepository.create(newMatch);

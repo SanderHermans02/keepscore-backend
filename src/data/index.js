@@ -51,6 +51,7 @@ async function initializeData() {
 
   try {
     await knexInstance.migrate.latest();
+    logger.info('Database migration successful');
   } catch (error) {
     logger.error('Error while migrating the database', {
       error,
@@ -92,6 +93,7 @@ function getKnex() {
 const tables = {
   team: 'teams',
   match: 'matches',
+  user: 'users',
 };
 
 module.exports = {

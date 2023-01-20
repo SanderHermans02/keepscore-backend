@@ -1,16 +1,35 @@
 const Router = require('@koa/router');
 const matchService = require('../service/match');
+const userService = require('../service/user');
+const {
+  addUserInfo
+} = require('../core/auth');
 
 const getAllMatches = async (ctx) => {
-  ctx.body = await matchService.getAll();
+  const user = await userService.getByAuth0Id(ctx.state.user.sub);
+  ctx.body = await matchService.getAll(user);
 }
 
 const createMatch = async (ctx) => {
+  let userId = 0;
+  try {
+    const user = await userService.getByAuth0Id(ctx.state.user.sub);
+    userId = user.id;
+  } catch (e) {
+    await addUserInfo(ctx);
+    console.log("user id before register: " + ctx.state.user.sub)
+    userId = await userService.register({
+      auth0Id: ctx.state.user.sub,
+      name: ctx.state.user.name,
+    })
+  }
 
-  ctx.body = matchService.create({
+  const newMatch = await matchService.create({
     ...ctx.request.body,
-    date: new Date(ctx.request.body.date)
+    date: new Date(ctx.request.body.date),
+    userId
   });
+  ctx.body = newMatch;
 };
 
 const getMatchById = async (ctx) => {

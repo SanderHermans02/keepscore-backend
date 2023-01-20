@@ -1,11 +1,11 @@
 const Router = require('@koa/router');
-const {
-  Logger,
-  loggers
-} = require('winston');
+
 const installMatchRouter = require('./_matches');
 const installHealthRouter = require('./_health');
 const installTeamRouter = require('./_teams');
+const installUserRouter = require('./_user');
+
+
 
 
 /**
@@ -18,10 +18,21 @@ module.exports = function installRest(app) {
     prefix: '/api',
   });
 
+  app.use(async (ctx, next) => {
+    try {
+      if (ctx.state.user.sub) {
+        await next();
+      }
+    } catch (err) {
+      ctx.throw(401, 'Unauthorized');
+      return;
+    }
+  })
 
   installMatchRouter(router);
   installTeamRouter(router);
   installHealthRouter(router);
+  installUserRouter(router);
 
   app.use(router.routes()).use(router.allowedMethods());
 };

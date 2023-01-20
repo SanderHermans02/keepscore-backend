@@ -54,5 +54,5 @@ module.exports.initializeLogger = ({
     ],
   });
 
-  logger.info(` Logger initialized with minimum log level ${level}`);
+  logger.info(`Logger initialized with minimum log level ${level}`);
 };

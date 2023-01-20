@@ -1,10 +1,8 @@
-# Examenopdracht Front-end Web Development / Web Services
+# Examenopdracht Web Services
 
-> Schrap hierboven wat niet past
-
-- Student: VOORNAAM NAAM
-- Studentennummer: xxxxxxxxx
-- E-mailadres: voornaam.naam@student.hogent.be
+- Student: Sander Hermans
+- Studentennummer: 202073918
+- E-mailadres: sander.hermans@student.hogent.be
 
 ## Vereisten
 
@@ -15,13 +13,34 @@ Ik verwacht dat volgende software reeds geïnstalleerd is:
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
 - ...
 
-> Vul eventueel aan
 
 ## Opstarten
 
-> Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
+Budget API
+To start this API, create a ```.env``` file in the root of this folder with this content
+```
+NODE_ENV="development"
+DATABASE_USERNAME="root"
+DATABASE_PASSWORD=""
+```	
+Update the username and password with the credentials of your local database.
 
+You can also extend the ```.env``` file with these configurations, only if the database host/port are different than our default.
+```
+DATABASE_HOST="localhost"
+DATABASE_PORT=3306
+```
+You can further extend the ```.env``` file with these configurations, if you wish to have authentication.
+```
+AUTH_JWKS_URI='https://keepscore.eu.auth0.com/.well-known/jwks.json'
+AUTH_AUDIENCE='https://keepscore.sanderhermans.be'
+AUTH_ISSUER='https://keepscore.eu.auth0.com/'
+AUTH_USER_INFO='https://keepscore.eu.auth0.com/userinfo'
+```	
+## How to start
+Run the app in development mode with ```yarn start```.
 
+Run the app in production mode with ```yarn start:prod```. We then assume all necessary environment variables are set, no ```.env``` file is ever read with this command.
 ## Testen
 
-> Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)
+/

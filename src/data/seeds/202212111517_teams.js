@@ -4,23 +4,28 @@ module.exports = {
 
     await knex('teams').insert([{
         id: 1,
-        name: 'BBC Panters Baasrode'
+        name: 'BBC Panters Baasrode',
+        userId: 1
       },
       {
         id: 2,
-        name: 'Okapi Aalst'
+        name: 'Okapi Aalst',
+        userId: 1
       },
       {
         id: 3,
-        name: 'Telenet Oostende'
+        name: 'Telenet Oostende',
+        userId: 1
       },
       {
         id: 4,
-        name: 'Kangoeroes Basket Mechelen'
+        name: 'Kangoeroes Basket Mechelen',
+        userId: 2
       },
       {
         id: 5,
-        name: 'Antwerp Giants'
+        name: 'Antwerp Giants',
+        userId: 2
       },
     ])
   },

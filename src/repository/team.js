@@ -16,12 +16,6 @@ const create = async (team) => {
   return id;
 }
 
-const updateById = async (id, team) => {
-  await getKnex()(tables.team)
-    .update(team)
-    .where('id', id);
-  return getById(id);
-}
 
 const getById = async (id) => {
 
@@ -42,6 +36,5 @@ module.exports = {
   getAll,
   create,
   getById,
-  updateById,
   deleteById
 }

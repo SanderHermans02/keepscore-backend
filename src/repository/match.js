@@ -4,7 +4,7 @@ const {
 } = require('../data/index');
 
 const SELECT_COLUMNS = [
-  `${tables.match}.id`, `homeTeamId`, `awayTeamId`, `homeScore`, `awayScore`, `date`,
+  `${tables.match}.id`, `homeTeamId`, `awayTeamId`, `homeScore`, `awayScore`, `date`, `userId`
 ];
 
 const getById = async (id) => {
