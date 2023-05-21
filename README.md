@@ -1,12 +1,7 @@
-# Examenopdracht Web Services
+# KeepScore API
 
-- Student: Sander Hermans
-- Studentennummer: 202073918
-- E-mailadres: sander.hermans@student.hogent.be
-
-## Vereisten
-
-Ik verwacht dat volgende software reeds geïnstalleerd is:
+## Requirements
+Following software has to be installed:
 
 - [NodeJS](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
@@ -14,9 +9,9 @@ Ik verwacht dat volgende software reeds geïnstalleerd is:
 - ...
 
 
-## Opstarten
+## Startup
 
-Budget API
+KeepScore API
 To start this API, create a ```.env``` file in the root of this folder with this content
 ```
 NODE_ENV="development"
